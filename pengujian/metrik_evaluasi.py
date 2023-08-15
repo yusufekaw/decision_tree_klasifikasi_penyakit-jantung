@@ -20,7 +20,7 @@ def visualisasiCM(cm, y_test, y_pred):
     # Tampilkan confusion matrix dalam bentuk plot
     plt.figure(figsize=(8, 6))
     sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=kelas, yticklabels=kelas)
-    plt.xlabel('Prediksi')
-    plt.ylabel('Aktual')
+    plt.xlabel('Aktual')
+    plt.ylabel('Prediksi')
     plt.title('Confusion Matrix')
     plt.show()
