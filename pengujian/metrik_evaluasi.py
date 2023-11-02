@@ -23,4 +23,4 @@ def visualisasiCM(cm, y_test, y_pred):
     plt.xlabel('Aktual')
     plt.ylabel('Prediksi')
     plt.title('Confusion Matrix')
-    plt.show()
+    plt.show()    
