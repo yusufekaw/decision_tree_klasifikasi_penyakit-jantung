@@ -1,7 +1,8 @@
-from data.pemrosesan_data import ambilData, splitData
+from data.pemrosesan_data import ambilData, splitData, toExcel
 from algoritma.decision_tree import Klasifikasi, informasiNode, plotTree, hasilKlasifikasi
 #from pengujian.metrik_evaluasi import CM, visualisasiCM, laporanKlasifikasi
 from pengujian.manual_metrik import CM, visualisasiCM, Accuracy, Precision, Recall, F1_Score
+import pandas as pd
 
 if __name__=="__main__":
 
@@ -12,7 +13,7 @@ if __name__=="__main__":
 
     #Split dataset menjadi data training dan testing
     X, y, X_train, X_test, y_train, y_test = splitData(dataset)
-
+    
     print("Data training:")
     print(X_train) #menampilkan data training
 
@@ -46,8 +47,10 @@ if __name__=="__main__":
             "FN :",FN,"\n"
             "TN :",TN,"\n"
           ) #menampilkan confusion matrixs
-    
-    visualisasiCM(cm, y_test, y_pred) #visualisasi confusion matrix
+
+    print(cm)
+
+    visualisasiCM(cm, y_pred, y_test) #visualisasi confusion matrix
 
     accuracy = Accuracy(TP, TN, FP, FN)
     precision = Precision(TP, FP)
@@ -58,7 +61,17 @@ if __name__=="__main__":
     print("Precision\t: ",round(precision,2))
     print("Recall\t\t: ",round(recall,2))
     print("F1_Score\t: ",round(f1_score,2))
-    
+
+    #simpan data ke excel 
+    data_training = pd.concat([X_train, y_train], axis=1)
+    target = pd.Series(y_test, name='Target', index=X_test.index)
+    prediksi = pd.Series(y_pred, name='Predict', index=X_test.index)
+    data_testing = pd.concat([X_test, target, prediksi], axis=1)
+    info_node = pd.DataFrame(info_node)
+    with pd.ExcelWriter("data/dataset/olah_data.xlsx") as writer:
+      data_training.to_excel(writer, sheet_name="data_training")
+      data_testing.to_excel(writer, sheet_name="data_testing")
+      info_node.to_excel(writer, sheet_name="info_node")
     #laporan = laporanKlasifikasi(y_test, y_pred)
     #print("Laporan Klasifikasi:")
     #print(laporan) #menampilkan metrik evaluasi algoritma

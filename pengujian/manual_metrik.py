@@ -20,13 +20,13 @@ def CM(y_test, y_pred):
             TN += 1
         elif y_test[i] == 1 and y_pred[i] == 0:
             FN += 1
-    cm = [[TN, FP], [FN, TP]]
+    cm = [[TP, TN], [FP, FN]]
 
     return cm, TP, FP, TN, FN
 
-def visualisasiCM(cm, y_test, y_pred):
+def visualisasiCM(cm, y_pred, y_test):
     # Definisikan kelas unik dalam data
-    kelas = unique_labels(y_test, y_pred)
+    kelas = unique_labels(y_pred, y_test)
     # Tampilkan confusion matrix dalam bentuk plot
     plt.figure(figsize=(8, 6))
     sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=kelas, yticklabels=kelas)
